@@ -1,7 +1,7 @@
 function Movies({movies}) {
   let hasResults = movies?.length > 0
   return (
-    <ul>
+    <ul className="movies">
       {hasResults ? (
         movies?.map((movie) => (
           <li key={movie.imdbID}>

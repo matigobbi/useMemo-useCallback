@@ -4,15 +4,15 @@ import useMovies from './hooks/useMovies'
 
 function App() {
   let apiKey = '6bedab68'
-  const { movies } = useMovies()
   const [query, setQuery] = useState("")
+  const { movies, getMovies } = useMovies({query, apiKey})
   const [error, setError] = useState(null)
   let isFirstInput = useRef(true)
   console.log(isFirstInput)
   
   const handleClick=(e)=>{
      e.preventDefault()
-     console.log({query});
+     getMovies();
   }
 
   const handleInputChange = (e) =>{

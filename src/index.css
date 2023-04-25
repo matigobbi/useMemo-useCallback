@@ -8,10 +8,22 @@
 main{
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 form {
   display: flex;
   justify-content:flex-start;
   align-items: center;
+}
+
+.movies{
+  display: grid;
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
 }
