@@ -27,3 +27,8 @@ form {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 32px;
 }
+
+.spinner{
+  margin: 30px;
+  width: 30px;
+}

@@ -1,42 +1,22 @@
-import { useState , useEffect , useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Movies from './components/movies'
 import useMovies from './hooks/useMovies'
 
 function App() {
   let apiKey = '6bedab68'
-  const [query, setQuery] = useState("")
-  const { movies, getMovies } = useMovies({query, apiKey})
-  const [error, setError] = useState(null)
+  const [query, setQuery] = useState('')
+  const { movies, getMovies, loading, error } = useMovies({ query, apiKey })
   let isFirstInput = useRef(true)
-  console.log(isFirstInput)
-  
-  const handleClick=(e)=>{
-     e.preventDefault()
-     getMovies();
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    getMovies()
   }
 
-  const handleInputChange = (e) =>{
+  const handleInputChange = (e) => {
     setQuery(e.target.value)
-
-
   }
 
-  useEffect(()=>{
-    if(isFirstInput.current){
-      isFirstInput.current = query === ""
-      return
-    }
-
-    if(query === ""){
-      setError("POR FAVOR INTRODUZCA UNA BUSQUEDA")
-      return
-    }
-    if(query.lenght < 3){
-      setError("POR FAVOR INTRODUZCA MAS DE 3 CARACTERES")
-      return
-    }
-    setError(null)
-  },[query])
   return (
     <div className="page">
       <header>
@@ -48,13 +28,14 @@ function App() {
             type="text"
             placeholder="Avengers, startwars, etc"
           />
-          <button onClick={handleClick} type="submit">Submit</button>
-          
+          <button onClick={handleClick} type="submit">
+            Submit
+          </button>
         </form>
-          {error && <p style={{color:"red"}}>{error}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </header>
       <main>
-        <Movies movies={movies} />
+      {loading ? <img src={"https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"} className='spinner'/> : <Movies movies={movies} />}
       </main>
     </div>
   )

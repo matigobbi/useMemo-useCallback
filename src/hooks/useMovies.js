@@ -1,33 +1,20 @@
-import dataMovies from '../mocking/results.json'
-import error from "../mocking/error.json"
 import { useState } from 'react'
+import { searchMovies } from '../services/movies'
+function useMovies({ query, apiKey }) {
+  const [movies, setMovies] = useState([])
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-function useMovies({query, apiKey}) {
-  const [responseMovies, setResponseMovies] = useState([])
-  let results = responseMovies.Search
-  const mappedMovies = results?.map((movie) => {
-    return {
-    id: movie.imdbID,
-    title: movie.Title,
-    year: movie.Year,
-    poster: movie.Poster,
-  }})
-
-  const getMovies = () =>{
-    if (query){
-      fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=${query}`)
-      .then(res => res.json())
-      .then(json => {
-        setResponseMovies(json)
-        console.log(json)
-      })
-      .catch(err => console.log(err))
-    }else{
-      setResponseMovies(error)
-    }
+  const getMovies = () => {
+    setLoading(true)
+    setError(null)
+    searchMovies({ query, apiKey })
+      .then((movies) => setMovies(movies))
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false))
   }
 
-  return { movies: mappedMovies, getMovies };
+  return { movies, getMovies,loading,error }
 }
 
-export default useMovies;
+export default useMovies
