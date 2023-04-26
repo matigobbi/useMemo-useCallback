@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { searchMovies } from '../services/movies'
 function useMovies({ query, apiKey }) {
   const [movies, setMovies] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const previusQuery = useRef(query)
 
   const getMovies = () => {
+    if (previusQuery.current === query) return
+    previusQuery.current = query
     setLoading(true)
     setError(null)
     searchMovies({ query, apiKey })
@@ -14,7 +17,7 @@ function useMovies({ query, apiKey }) {
       .finally(() => setLoading(false))
   }
 
-  return { movies, getMovies,loading,error }
+  return { movies, getMovies, loading, error }
 }
 
 export default useMovies
