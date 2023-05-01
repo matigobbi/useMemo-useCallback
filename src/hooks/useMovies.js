@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useCallback } from 'react'
 import { searchMovies } from '../services/movies'
 function useMovies({ query, apiKey, sort }) {
   const [movies, setMovies] = useState([])
@@ -6,7 +6,7 @@ function useMovies({ query, apiKey, sort }) {
   const [loading, setLoading] = useState(false)
   const previusQuery = useRef(query)
 
-  const getMovies = () => {
+  const getMovies = useCallback(() => {
     if (previusQuery.current === query) return
     previusQuery.current = query
     setLoading(true)
@@ -15,10 +15,10 @@ function useMovies({ query, apiKey, sort }) {
       .then((movies) => setMovies(movies))
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
-  }
+  })
 
   const sortedMovies = useMemo(() => {
-    console.log("memo")
+    if(!movies) return
     return sort 
     ? [...movies].sort((a,b )=> a.title.localeCompare(b.title)) 
     : movies

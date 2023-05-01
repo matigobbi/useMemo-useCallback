@@ -19,6 +19,7 @@ function App() {
   }
 
   const handleSort = () =>{
+    console.log(sort)
     setSort(!sort)
   }
 
